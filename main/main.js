@@ -2,18 +2,30 @@ module.exports = function main(inputs) {
     console.log("Debug Info");
    
 
-    var productList = populateProductList(inputs); 
-
-    getUniqueBarCodes(inputs);
+    // var productList = populateProductList(inputs); 
+    var printReceipt = printInventory (inputs);
 
     function printInventory (inputs){
-
+       var productList = populateProductList(inputs); 
       let ReceiptToPrint = '***<store earning no money>Receipt ***\n' ;
+      productList.forEach(product => {
+        let nameOfProduct = 'Name: ' + product.Name;
+        let quantityOfProduct = ', Quantity: ' + product.Count;
+        let unitPrice = ', Unit price: ' + product.Price;
+        let productSubTotal = ', Subtotal: ' + product.Subtotal;
+        let total = total + productSubTotal;
+        let finalDetails = nameOfProduct + quantityOfProduct + unitPrice + productSubTotal + total +  '/\n';
+        ReceiptToPrint = ReceiptToPrint.concat(finalDetails);
+    });
 
-     //loop through inputs and iterate based on length of unique products 
-     // for every loop append details for Name , Quantity ,  unit price and subtotal 
-     //by calling functions that will get these values
+    var adults_sum = 0, children_sum = 0;
 
+array.forEach(function(obj){
+    adults_sum += obj["adults"];
+    children_sum += obj["children"];
+});
+
+        return ReceiptToPrint;
     };
 
     function populateProductList(inputs){
@@ -24,32 +36,20 @@ module.exports = function main(inputs) {
             let product = inputs
                 .filter(input=>input.Barcode === uniqueBarCode)
                 [0];
-           
-            let productCount = inputs.filter(product => product.length );
-            product.count=productCount;
+            let productCount = inputs
+            .filter(input=> input.Barcode === uniqueBarCode).length;
+            let subtotal = productCount * product.Price;
+            product.Subtotal= subtotal;
+            product.Count= productCount;
             productList.push(product);
         }
 
         return productList;
-    }
+    };
     
-
     function getUniqueBarCodes (inputs){
         var  listOfUniqueBarCodesandPrice = [...new Set( inputs.map(x => x.Barcode))];
         return listOfUniqueBarCodesandPrice;
-    }
-
-    ;
-
-
-    // function countNumberOfProductOccurence (inputs){
-    //     var occurs = 0;
-  
-    //     for (var i=0; i<arr.length; i++) {
-    //     if ( 'id' in arr[i] && arr[i].id === id ) occurs++;
-    //     }
-
-    // return occurs;
-    // }
+    };
 
 };
