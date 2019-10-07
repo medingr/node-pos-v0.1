@@ -1,18 +1,55 @@
-module.exports = function main() {
+module.exports = function main(inputs) {
     console.log("Debug Info");
-    return 'Hello World!';
+   
+
+    var productList = populateProductList(inputs); 
+
+    getUniqueBarCodes(inputs);
 
     function printInventory (inputs){
-    var finalResult = [];
-    var sameBarcode = [...new Set(inputs.map(item => Barcode.Group))];
 
-    var count = dataset.inputs(function(n, val) {
-    return n + (val === sameBarcode);
-    }, 0);
+      let ReceiptToPrint = '***<store earning no money>Receipt ***\n' ;
 
-    const sameBarcode = inputs.map(x => x.Barcode);
-    sameBarcode.unique();
+     //loop through inputs and iterate based on length of unique products 
+     // for every loop append details for Name , Quantity ,  unit price and subtotal 
+     //by calling functions that will get these values
 
+    };
+
+    function populateProductList(inputs){
+        let uniqueBarCodes = getUniqueBarCodes(inputs);
+        
+        let productList=[];
+        for(let uniqueBarCode of uniqueBarCodes){
+            let product = inputs
+                .filter(input=>input.Barcode === uniqueBarCode)
+                [0];
+           
+            let productCount = inputs.filter(product => product.length );
+            product.count=productCount;
+            productList.push(product);
+        }
+
+        return productList;
     }
+    
+
+    function getUniqueBarCodes (inputs){
+        var  listOfUniqueBarCodesandPrice = [...new Set( inputs.map(x => x.Barcode))];
+        return listOfUniqueBarCodesandPrice;
+    }
+
+    ;
+
+
+    // function countNumberOfProductOccurence (inputs){
+    //     var occurs = 0;
+  
+    //     for (var i=0; i<arr.length; i++) {
+    //     if ( 'id' in arr[i] && arr[i].id === id ) occurs++;
+    //     }
+
+    // return occurs;
+    // }
 
 };
